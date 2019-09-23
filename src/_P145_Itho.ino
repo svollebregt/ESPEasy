@@ -88,7 +88,7 @@ bool PLUGIN_145_InitRunned = false;
 
 
 
-boolean Plugin_145(byte function, struct EventStruct *event, String& string)
+boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 {
 	boolean success = false;
 
@@ -428,8 +428,19 @@ void PLUGIN_145_Publishdata(struct EventStruct *event)
 {
     UserVar[event->BaseVarIndex]=PLUGIN_145_State;
     UserVar[event->BaseVarIndex+1]=PLUGIN_145_Timer;
-	UserVar[event->BaseVarIndex+2]=PLUGIN_145_LastIDindex;
-    PLUGIN_145_LastPublish=millis();
+		UserVar[event->BaseVarIndex+2]=PLUGIN_145_LastIDindex;
+
+		String log2 = F("State2: ");
+		log2 += PLUGIN_145_State;
+		log2 += F("Timer2: ");
+		log2 += PLUGIN_145_Timer;
+		log2 += F("LastIDindex2: ");
+		log2 += PLUGIN_145_LastIDindex;
+
+		addLog(LOG_LEVEL_DEBUG, log2);
+
+
+		PLUGIN_145_LastPublish=millis();
     String log = F("State: ");
     log += UserVar[event->BaseVarIndex];
     addLog(LOG_LEVEL_DEBUG, log);
