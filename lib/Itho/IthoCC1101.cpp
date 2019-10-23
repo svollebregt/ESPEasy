@@ -815,7 +815,7 @@ uint8_t IthoCC1101::calculateMessage2Byte43(uint8_t counter, IthoCommand command
 			if (counter % 2 == 0) counter -= 1;
 			break;
 
-			case IthoTimer1:
+		case IthoTimer1:
 			counter += 6;
 			if (counter % 2 == 0) counter -= 1;
 			break;
@@ -848,8 +848,11 @@ uint8_t IthoCC1101::calculateMessage2Byte43(uint8_t counter, IthoCommand command
 			counter += 8;
 			if (counter % 2 == 0) counter -= 1;
 			break;
-	}
 
+		default:
+			counter = 0;
+			break;
+	}
 	return counterBytes43[(counter % 16) / 2];
 }
 

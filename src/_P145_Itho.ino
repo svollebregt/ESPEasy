@@ -254,8 +254,8 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 				if (param1.equalsIgnoreCase(F("3")))
 				{
 					PLUGIN_145_rf.sendCommand(IthoHigh);
-					addLog(LOG_LEVEL_INFO, F("Sent command for 'full speed' to Itho unit"));
-					printWebString += F("Sent command for 'full speed' to Itho unit");
+					addLog(LOG_LEVEL_INFO, F("Sent command for 'high speed' to Itho unit"));
+					printWebString += F("Sent command for 'high speed' to Itho unit");
 					PLUGIN_145_State=3;
 					PLUGIN_145_Timer=0;
 					PLUGIN_145_LastIDindex = 0;
@@ -264,7 +264,7 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 
 				if (param1.equalsIgnoreCase(F("4")))
 				{
-				    PLUGIN_145_rf.sendCommand(IthoFull);
+				  PLUGIN_145_rf.sendCommand(IthoFull);
 					addLog(LOG_LEVEL_INFO, F("Sent command for 'full speed' to Itho unit"));
 					printWebString += F("Sent command for 'full speed' to Itho unit");
 					PLUGIN_145_State=4;
@@ -358,24 +358,28 @@ void PLUGIN_145_ITHOcheck()
 				log += F("unknown\n");
 				break;
 			 case IthoStandby:
+			 case DucoStandby:
 				log += F("standby\n");
 				PLUGIN_145_State = 0;
 				PLUGIN_145_Timer = 0;
 				PLUGIN_145_LastIDindex = index;
 				break;
 			 case IthoLow:
+			 case DucoLow:
 				log += F("low\n");
 				PLUGIN_145_State = 1;
 				PLUGIN_145_Timer = 0;
 				PLUGIN_145_LastIDindex = index;
 			 break;
 			 case IthoMedium:
+ 			 case DucoMedium:
 				log += F("medium\n");
 				PLUGIN_145_State = 2;
 				PLUGIN_145_Timer = 0;
 				PLUGIN_145_LastIDindex = index;
 				break;
 			 case IthoHigh:
+			 case DucoHigh:
 				log += F("high\n");
 				PLUGIN_145_State = 3;
 				PLUGIN_145_Timer = 0;
@@ -437,15 +441,23 @@ void PLUGIN_145_Publishdata(struct EventStruct *event)
     log = F("Timer: ");
     log += UserVar[event->BaseVarIndex+1];
     addLog(LOG_LEVEL_DEBUG, log);
-	log = F("LastIDindex: ");
-	log += UserVar[event->BaseVarIndex+2];
-	addLog(LOG_LEVEL_DEBUG, log);
+		log = F("LastIDindex: ");
+		log += UserVar[event->BaseVarIndex+2];
+		addLog(LOG_LEVEL_DEBUG, log);
 }
 
 int PLUGIN_145_RFRemoteIndex(String rfremoteid)
 {
-	if (rfremoteid == PLUGIN_145_ExtraSettings.ID1) return 1;
-		else if (rfremoteid == PLUGIN_145_ExtraSettings.ID2) return 2;
-			else if (rfremoteid == PLUGIN_145_ExtraSettings.ID3) return 3;
-				else return -1;
+	if (rfremoteid == PLUGIN_145_ExtraSettings.ID1){
+		return 1;
+ 	}
+	else if (rfremoteid == PLUGIN_145_ExtraSettings.ID2){
+		return 2;
+	}
+	else if (rfremoteid == PLUGIN_145_ExtraSettings.ID3){
+		return 3;
+	}
+	else{
+		return -1;
+	}
 }
