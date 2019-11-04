@@ -483,7 +483,7 @@ void IthoCC1101::sendCommand(IthoCommand command)
 		finishTransfer();
 		delay(delaytime);
 	}
-    initReceive();
+	initReceive();
 }
 
 void IthoCC1101::createMessageStart(IthoPacket *itho, CC1101Packet *packet)
@@ -896,6 +896,7 @@ uint8_t* IthoCC1101::getMessage1CommandBytes(IthoCommand command)
 {
 	switch (command)
 	{
+		case IthoFull:
 		case IthoHigh:
 			return (uint8_t*)&ithoMessage1HighCommandBytes[0];
 		case IthoMedium:

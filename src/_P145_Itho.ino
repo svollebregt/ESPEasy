@@ -2,7 +2,8 @@
 //############################## Plugin 145: Itho ventilation unit 868Mhz remote ########################
 //#######################################################################################################
 
-// author :jodur, 13-1-2018
+// author :jodur, 	13-1-2018
+// changed :jeroen, 2-11-2019
 
 // List of commands:
 // 1111 to join ESP8266 with Itho ventilation unit
@@ -98,8 +99,8 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 	case PLUGIN_DEVICE_ADD:
 		{
 			Device[++deviceCount].Number = PLUGIN_ID_145;
-            Device[deviceCount].Type = DEVICE_TYPE_SINGLE;
-            Device[deviceCount].VType = SENSOR_TYPE_TRIPLE;
+			Device[deviceCount].Type = DEVICE_TYPE_SINGLE;
+			Device[deviceCount].VType = SENSOR_TYPE_TRIPLE;
 			Device[deviceCount].Ports = 0;
 			Device[deviceCount].PullUpOption = false;
 			Device[deviceCount].InverseLogicOption = false;
@@ -163,23 +164,24 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 
       //if timer has elapsed set Fan state to low
       if ((PLUGIN_145_State>=10) && (PLUGIN_145_Timer<=0))
-       { PLUGIN_145_State=1;
+      {
+				 PLUGIN_145_State=1;
          PLUGIN_145_Timer=0;
-       }
+      }
 
       //Publish new data when vars are changed or init has runned or timer is running (update every 2 sec)
       if  ((PLUGIN_145_OldState!=PLUGIN_145_State) || ((PLUGIN_145_Timer>0) && (PLUGIN_145_Timer % 2==0)) || (PLUGIN_145_OldLastIDindex!=PLUGIN_145_LastIDindex)|| PLUGIN_145_InitRunned)
       {
-		addLog(LOG_LEVEL_DEBUG, F("UPDATE by PLUGIN_ONCE_A_SECOND"));
-		PLUGIN_145_Publishdata(event);
+				addLog(LOG_LEVEL_DEBUG, F("UPDATE by PLUGIN_ONCE_A_SECOND"));
+				PLUGIN_145_Publishdata(event);
         sendData(event);
-		//reset flag set by init
-		PLUGIN_145_InitRunned=false;
+				//reset flag set by init
+				PLUGIN_145_InitRunned=false;
       }
       //Remeber current state for next cycle
       PLUGIN_145_OldState=PLUGIN_145_State;
-	  PLUGIN_145_OldLastIDindex =PLUGIN_145_LastIDindex;
-	  success = true;
+	  	PLUGIN_145_OldLastIDindex =PLUGIN_145_LastIDindex;
+	  	success = true;
       break;
     }
 
@@ -310,7 +312,7 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 
       case PLUGIN_WEBFORM_LOAD:
         {
-		  addFormSubHeader(F("Remote RF Controls"));
+		  		addFormSubHeader(F("Remote RF Controls"));
           addFormTextBox(F("Unit ID remote 1"), F("PLUGIN_145_ID1"), PLUGIN_145_ExtraSettings.ID1, 23);
           addFormTextBox(F("Unit ID remote 2"), F("PLUGIN_145_ID2"), PLUGIN_145_ExtraSettings.ID2, 23);
           addFormTextBox(F("Unit ID remote 3"), F("PLUGIN_145_ID3"), PLUGIN_145_ExtraSettings.ID3, 23);
@@ -320,11 +322,11 @@ boolean Plugin_145(byte function, struct EventStruct *event, String &string)
 
       case PLUGIN_WEBFORM_SAVE:
         {
-		  strcpy(PLUGIN_145_ExtraSettings.ID1, WebServer.arg(F("PLUGIN_145_ID1")).c_str());
-		  strcpy(PLUGIN_145_ExtraSettings.ID2, WebServer.arg(F("PLUGIN_145_ID2")).c_str());
-		  strcpy(PLUGIN_145_ExtraSettings.ID3, WebServer.arg(F("PLUGIN_145_ID3")).c_str());
-		  SaveCustomTaskSettings(event->TaskIndex, (byte*)&PLUGIN_145_ExtraSettings, sizeof(PLUGIN_145_ExtraSettings));
-		  success = true;
+				  strcpy(PLUGIN_145_ExtraSettings.ID1, WebServer.arg(F("PLUGIN_145_ID1")).c_str());
+				  strcpy(PLUGIN_145_ExtraSettings.ID2, WebServer.arg(F("PLUGIN_145_ID2")).c_str());
+				  strcpy(PLUGIN_145_ExtraSettings.ID3, WebServer.arg(F("PLUGIN_145_ID3")).c_str());
+				  SaveCustomTaskSettings(event->TaskIndex, (byte*)&PLUGIN_145_ExtraSettings, sizeof(PLUGIN_145_ExtraSettings));
+				  success = true;
           break;
         }
 	}
