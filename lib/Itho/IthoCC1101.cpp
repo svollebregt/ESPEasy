@@ -896,6 +896,7 @@ uint8_t* IthoCC1101::getMessage1CommandBytes(IthoCommand command)
 {
 	switch (command)
 	{
+		case IthoFull:
 		case IthoHigh:
 			return (uint8_t*)&ithoMessage1HighCommandBytes[0];
 		case IthoMedium:
