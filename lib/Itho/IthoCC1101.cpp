@@ -301,8 +301,8 @@ void IthoCC1101::initReceive()
 	writeRegister(CC1101_AGCCTRL2 ,0x43);
 	writeRegister(CC1101_AGCCTRL1 ,0x40);
 	writeRegister(CC1101_AGCCTRL0 ,0x91);
-//	writeRegister(CC1101_FSCAL3 ,0xA9);
-	writeRegister(CC1101_FSCAL3 ,0xE9);
+	writeRegister(CC1101_FSCAL3 ,0xA9);
+//	writeRegister(CC1101_FSCAL3 ,0xE9);		// this one appears to be used in Duco-related code, revert back to 0xA9
 	writeRegister(CC1101_FSCAL2 ,0x2A);
 	writeRegister(CC1101_FSCAL1 ,0x00);
 	writeRegister(CC1101_FSCAL0 ,0x1F);
@@ -355,8 +355,8 @@ void  IthoCC1101::initReceiveMessage2(IthoMessageType expectedMessageType)
 
 	//set fifo mode with fixed packet length and sync bytes
 	writeRegister(CC1101_PKTCTRL0 ,0x00);
-//	writeRegister(CC1101_SYNC1 ,170);			//message2 byte6
-	writeRegister(CC1101_SYNC1 ,172);			//message2 byte6
+	writeRegister(CC1101_SYNC1 ,170);			//message2 byte6, this correctly decodes a remote with timer function
+//	writeRegister(CC1101_SYNC1 ,172);			//message2 byte6, appears to be for remotes with 'niet thuis' functionality
 	writeRegister(CC1101_SYNC0 ,171);			//message2 byte7
 	writeRegister(CC1101_MDMCFG2 ,0x02);
 	writeRegister(CC1101_PKTCTRL1 ,0x00);
